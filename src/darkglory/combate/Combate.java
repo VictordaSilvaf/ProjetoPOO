@@ -2,6 +2,8 @@ package darkglory.combate;
 
 import darkglory.combatentes.Classe;
 import darkglory.equipamentos.Equipamento;
+import javafx.scene.control.Alert;
+import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -10,14 +12,23 @@ import java.util.Random;
 public class Combate {
     private Classe jogador1Lutador;
     private Classe jogador2Lutador;
+    private Equipamento jogador1Equipamentos;
+    private Equipamento jogador2Equipamentos;
 
     private Classe jogador1LutadorCampo;
+    private Equipamento jogador1EquipamentosCampo;
+
     private Classe jogador2LutadorCampo;
+    private Equipamento jogador2EquipamentosCampo;
+
+    int batalhaJogador;
+    int batalhaBot;
 
     JOptionPane in = new JOptionPane();
     Random random = new Random();
     Funcoes funcoes = new Funcoes();
 
+    //Player>>>
     public void iniciarCombate(Player jogador1, Player jogador2) throws InterruptedException {
         //Definir quem vai iniciar o combate
         // 2 numero de jogadores
@@ -38,56 +49,76 @@ public class Combate {
         for (Classe classes : jogador1.getCombatentesMao()) {
             this.jogador1Lutador = classes;
         }
+        for (Equipamento equipamentos : jogador1.getEquipamentosMao()) {
+            this.jogador1Equipamentos = equipamentos;
+        }
         for (Classe classes : jogador2.getCombatentesMao()) {
             this.jogador2Lutador = classes;
         }
-    }
-    public void vezPlayer(Player jogador1, Player jogador2) throws InterruptedException {
-        //opções de combate
-        String opc = null;
-        while (!"sair".equals(opc)) {
-            opc = JOptionPane.showInputDialog("Oque deseja fazer?\n1- Invocar\n2- Ver suas cartas\n3- Exibir Campo\n4- Equipar\n 'sair' (para sair)");
-            switch (opc) {
-                case "1":
-                    invocar(jogador1);
-                    break;
-                case "2":
-                    mostrarMao(jogador1);
-                    break;
-                case "3":
-                    exibirCampo();
-                    break;
-                case "4":
-
-                    break;
-                case "sair":
-
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Não entendi sua resposta, digite um numero de 1 a 4 ou sair");
-            }
+        for (Equipamento equipamentos : jogador2.getEquipamentosMao()) {
+            this.jogador2Equipamentos = equipamentos;
         }
     }
-    public void vezBot(Player jogador1, Player jogador2) {
+    public String vezPlayer(Player jogador1, Player jogador2, String opc) throws InterruptedException {
+        //opções de combate
 
+
+        opc = JOptionPane.showInputDialog("Oque deseja fazer?\n0- Para batalhar\n1- Invocar\n2- Ver suas cartas\n3- Exibir Campo\n4- Equipar\n'passar' Para passar a vez\nsair' (para sair)");
+        switch (opc) {
+            case "0":
+                batalhaJogador = 1;
+                if (jogador1LutadorCampo != null && jogador2LutadorCampo != null) {
+                    Batalha.inciarBatalha(jogador1, jogador2, jogador1LutadorCampo, jogador2LutadorCampo, jogador1EquipamentosCampo, jogador2EquipamentosCampo);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Alguem ainda não invocou.", "Calma ae!", JOptionPane.WARNING_MESSAGE);
+                    batalhaJogador = 0;
+                }
+                break;
+            case "1":
+                invocar(jogador1);
+                break;
+            case "2":
+                mostrarMao(jogador1);
+                break;
+            case "3":
+                exibirCampo(jogador1, jogador2);
+                break;
+            case "4":
+                equipar(jogador1);
+                break;
+            case "passar":
+                break;
+            case "sair":
+                System.out.println("Adeus!!!");
+            break;
+            default:
+                JOptionPane.showMessageDialog(null, "Não entendi sua resposta, digite um numero de 0 a 4, passar ou sair");
+        }
+        return opc;
     }
     public void round(int vez, Player jogador1, Player jogador2, int turno) throws InterruptedException {
         JOptionPane.showMessageDialog(null,"Turno: "+turno);
+        String opc = null;
+        while (!"sair".equals(opc)) {
         switch (vez) {
-            case 1:
-                vezPlayer(jogador1, jogador2);
-                vezBot(jogador1, jogador2);
-                break;
-            case 2:
-                vezBot(jogador1, jogador2);
-                vezPlayer(jogador1, jogador2);
-                break;
+
+                case 1:
+                    opc=vezPlayer(jogador1, jogador2, opc);
+                    vezBot(jogador1, jogador2);
+
+                    break;
+                case 2:
+                    vezBot(jogador1, jogador2);
+                    opc=vezPlayer(jogador1, jogador2, opc);
+
+                    break;
+            }
+            turno++;
         }
-        turno++;
     }
     public void mostrarMao(Player jogador) throws InterruptedException {
 
-        System.out.println("*******************************************");
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         //enumerar as cartas
         int contador = 1;
         for (Classe classes : jogador.getCombatentesMao()) {
@@ -100,30 +131,59 @@ public class Combate {
             System.out.println("X   Defesa: "+jogador1Lutador.getDefesa());
             System.out.println("-------------------------------------------------");
             contador++;
+            System.out.println("\n\n");
             Thread.sleep(1500);
         }
     }
-    public void exibirCampo() {
+    public void exibirEquipamentos(Player jogador) throws InterruptedException {
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        //enumerar as cartas
+        int contador = 1;
+        for (Equipamento equipamentos : jogador.getEquipamentosMao()) {
+            this.jogador1Equipamentos = equipamentos;
+            System.out.println("-------------------- Equipamento --------------------");
+            System.out.println("X   Numero da carta de equipamento: "+contador);
+            System.out.println("X   Nome: "+jogador1Equipamentos.getNome());
+            System.out.println("X   Tipo: "+jogador1Equipamentos.getTipo());
+            System.out.println("X   Dano: "+jogador1Equipamentos.getDanoAdicional()+"   Vida:"+jogador1Equipamentos.getVidaAdicional());
+            System.out.println("X   Defesa: "+jogador1Equipamentos.getDefesaAdicional());
+            System.out.println("-------------------------------------------------");
+            contador++;
+            System.out.println("\n\n");
+            Thread.sleep(1500);
+        }
+
+    }
+    public void exibirCampo(Player jogador, Player bot) {
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         if (jogador1LutadorCampo != null) {
+            System.out.println("\n");
             System.out.println("-------------------- Lutador --------------------");
+            System.out.println("X   Dono: "+jogador.getNome());
             System.out.println("X   Nome: " + jogador1LutadorCampo.getNome());
             System.out.println("X   Tipo: " + jogador1LutadorCampo.getTipo());
             System.out.println("X   Dano: " + jogador1LutadorCampo.getDano() + "   Vida:" + jogador1LutadorCampo.getVida());
             System.out.println("X   Defesa: " + jogador1LutadorCampo.getDefesa());
             System.out.println("-------------------------------------------------");
         }else {
+            System.out.println("\n");
             System.out.println("O jogador numero 1 ainda não esta para invocar.");
         }
 
         if (jogador2LutadorCampo != null) {
+            System.out.println("\n");
             System.out.println("-------------------- Lutador --------------------");
+            System.out.println("X   Dono: "+bot.getNome());
             System.out.println("X   Nome: " + jogador2LutadorCampo.getNome());
             System.out.println("X   Tipo: " + jogador2LutadorCampo.getTipo());
             System.out.println("X   Dano: " + jogador2LutadorCampo.getDano() + "   Vida:" + jogador2LutadorCampo.getVida());
             System.out.println("X   Defesa: " + jogador2LutadorCampo.getDefesa());
             System.out.println("-------------------------------------------------");
         }else {
-            System.out.println("O jogador numero 2 ainda não esta para invocar.");
+            System.out.println("\n");
+            System.out.println("-------------------------------------------------------------");
+            System.out.println("|       O jogador numero 2 ainda esta para invocar.         |");
+            System.out.println("-------------------------------------------------------------");
         }
     }
     public void invocar(Player jogador) {
@@ -143,10 +203,114 @@ public class Combate {
             }
 
             jogador1LutadorCampo = lutadores.get(numCarta);
+            System.out.println("\n");
             System.out.println(jogador1LutadorCampo.getNome() + " invocado com sucesso.");
         }
     }
-    public void equipar() {
+    public void equipar(Player jogador) throws InterruptedException {
+        exibirEquipamentos(jogador);
 
+        String cartaEquipamento = "0";
+        cartaEquipamento = JOptionPane.showInputDialog(null, "Qual o numero da carta equipamento que deseja equipar?");
+
+        if (!"voltar".equals(cartaEquipamento)) {
+            //transformando em inteiro e sobitraindo 1 pois na enumeração adicionei 1
+            int numCarta = Integer.parseInt(cartaEquipamento);
+            numCarta -= 1;
+
+            ArrayList<Equipamento> equipamentos = new ArrayList<Equipamento>();
+
+            for (Equipamento equipamento : jogador.getEquipamentosMao()) {
+                equipamentos.add(equipamento);
+            }
+
+
+
+            if (jogador1LutadorCampo != null) {
+
+
+                jogador1EquipamentosCampo = equipamentos.get(numCarta);
+                jogador1LutadorCampo.setVida(jogador1LutadorCampo.getVida()+jogador1EquipamentosCampo.getVidaAdicional());
+                jogador1LutadorCampo.setDano(jogador1LutadorCampo.getDano()+jogador1EquipamentosCampo.getDanoAdicional());
+                jogador1LutadorCampo.setDefesa(jogador1LutadorCampo.getDefesa()+jogador1EquipamentosCampo.getDefesaAdicional());
+
+                System.out.println("\n");
+                System.out.println("-------------------- Lutador --------------------");
+                System.out.println("X   Nome: " + jogador1LutadorCampo.getNome());
+                System.out.println("X   Tipo: " + jogador1LutadorCampo.getTipo());
+                System.out.println("X   Dano: " + jogador1LutadorCampo.getDano() + "   Vida:" + jogador1LutadorCampo.getVida());
+                System.out.println("X   Defesa: " + jogador1LutadorCampo.getDefesa());
+                System.out.println("-------------------------------------------------");
+
+            }else {
+                JOptionPane.showMessageDialog(null,"Tem certeza que tem algum lutador seu em campo?","Alert",JOptionPane.WARNING_MESSAGE);
+            }
+
+            System.out.println("\n");
+            System.out.println(jogador1EquipamentosCampo.getNome() + " Equipando com sucesso com sucesso.");
+        }
+    }
+
+    //Bot>>>
+    public void vezBot(Player jogador1, Player bot) {
+
+        if (jogador2LutadorCampo == null) { // verifica se o campo do bot esta vazio.
+            botInvocar(bot);
+        }else {
+            if (jogador1LutadorCampo != null) { // verificar se o player inimigo ja jogou.
+                if (jogador2EquipamentosCampo == null) { //verifica se tem equipamentos no campo do bot.
+                    //caso nao tenha ira rodar um dado se o dado cair 0  ele batalha se cair 1 ele equipa
+                    int rand = random.nextInt(2);
+                    switch (rand) {
+                        case 0:
+                            batalhaBot = 1;
+                            break;
+                        case 1:
+                            botEquipar(bot);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+    public void botInvocar(Player bot) {
+        ArrayList<Classe> lutadores = new ArrayList<Classe>();
+
+        int rand = random.nextInt(6);
+        for (Classe classes : bot.getCombatentesMao()) {
+            lutadores.add(classes);
+        }
+
+        jogador2LutadorCampo = lutadores.get(rand);
+
+        System.out.println(jogador2LutadorCampo.getNome() + "lutador de "+bot.getNome()+" invocado com sucesso.");
+
+    }
+    public void botEquipar(Player bot) {
+        ArrayList<Equipamento> equipamentos = new ArrayList<Equipamento>();
+
+        int numCarta = random.nextInt(6);
+
+        for (Equipamento equipamento : bot.getEquipamentosMao()) {
+            equipamentos.add(equipamento);
+        }
+
+        if (jogador2LutadorCampo != null) {
+
+
+            jogador2EquipamentosCampo = equipamentos.get(numCarta);
+            jogador2LutadorCampo.setVida(jogador2LutadorCampo.getVida() + jogador2EquipamentosCampo.getVidaAdicional());
+            jogador2LutadorCampo.setDano(jogador2LutadorCampo.getDano() + jogador2EquipamentosCampo.getDanoAdicional());
+            jogador2LutadorCampo.setDefesa(jogador2LutadorCampo.getDefesa() + jogador2EquipamentosCampo.getDefesaAdicional());
+
+            System.out.println("\n");
+            System.out.println("-------------------- Lutador --------------------");
+            System.out.println("X   Nome: " + jogador2LutadorCampo.getNome());
+            System.out.println("X   Tipo: " + jogador2LutadorCampo.getTipo());
+            System.out.println("X   Dano: " + jogador2LutadorCampo.getDano() + "   Vida:" + jogador2LutadorCampo.getVida());
+            System.out.println("X   Defesa: " + jogador2LutadorCampo.getDefesa());
+            System.out.println("-------------------------------------------------");
+
+        }
     }
 }

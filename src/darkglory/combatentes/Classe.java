@@ -26,7 +26,7 @@ public abstract class Classe {
         this.id = id;
         this.nome = nome;
         this.dano = forca;
-        this.vida = 30;
+        this.vida = 30+vida;
         this.defesa = defesa;
         this.Tipo = tipo;
     }
@@ -85,7 +85,7 @@ public abstract class Classe {
         return defesaT;
     }
     
-    public void recAtaque() {
+    public void recAtaque(int dano) {
         int defesaT = defender();
         if (dano < defesaT) {
             System.out.println(this.nome + " com " + defesaT + " de defesa total, se defendeu do ataque! ");
