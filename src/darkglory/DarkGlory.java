@@ -9,7 +9,9 @@ import darkglory.combate.Deck;
 import darkglory.combate.Funcoes;
 import darkglory.combate.Player;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
@@ -40,19 +42,24 @@ public class DarkGlory {
                 playerGenero = "feminino";
                 break;
         }
+        Player player = new Player(playerNome,playerGenero);
 
         JOptionPane.showMessageDialog(null, "Arthur: Todos deem as boas vindas a " + playerNome + ", novo membro que ira participar das batalhas conosco apartir de agora!");
 
-        Deck deckPlayer = new Deck();
-        Deck deckAdversario = new Deck();
+        Deck deck = new Deck();
 
-        JOptionPane.showMessageDialog(null, "Arthur: Que tal dar uma aquecidinha?\nArthur: Lute contra eu!\nArthur: Sou iniciante, mais vou te dar um coro.");
+        JOptionPane.showMessageDialog(null, "Arthur: Que tal dar uma aquecidinha?\nArthur: Lute contra mim!\nArthur: Sou iniciante, mais vou te dar um coro.");
 
-        deckPlayer.criarDeck(playerNome);
-        deckAdversario.criarDeck("Arthur");
+        deck.criarDeck();
 
-        //deckPlayer.exibirDeck();
+        deck.definirMao(player);
 
+        Player arthur = new Player("Arthur","masculino");
+        deck.definirMao(arthur);
+
+        for (Object obj : player.getCombatentesMao()) {
+            System.out.println(obj);
+        }
 
     }
     

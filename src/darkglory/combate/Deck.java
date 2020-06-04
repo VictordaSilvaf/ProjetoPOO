@@ -7,25 +7,20 @@ import darkglory.combatentes.egipcios.*;
 import darkglory.combatentes.espiritos.*;
 import darkglory.combatentes.humanos.*;
 import darkglory.combatentes.orcs.*;
-import darkglory.equipamentos.armaduras.ArmaduraDeFogoGelado;
-import darkglory.equipamentos.armaduras.BotasDeHernes;
-import darkglory.equipamentos.armaduras.PeitoralDeInfernal;
-import darkglory.equipamentos.armas.AdagasDoTrovao;
-import darkglory.equipamentos.armas.EscudoDeApofis;
-import darkglory.equipamentos.armas.EspadaSemLamina;
-import darkglory.equipamentos.armas.MachadoDecepador;
+import darkglory.equipamentos.armaduras.*;
+import darkglory.equipamentos.armas.*;
 import darkglory.equipamentos.colar.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Deck {
-    String dono;
 
     int numeroCombatentes;
     int numeroEquipamentos;
 
-    int[] combatentes;
-    int[] equipamentos;
+    ArrayList<Object> todosCombatentes = new ArrayList<>();
+    ArrayList<Object> todosEquipamentos = new ArrayList<>();
 
     public Random random = new Random();
 
@@ -34,104 +29,93 @@ public class Deck {
         this.numeroEquipamentos = 6;
     }
 
-    public String getDono() {
-        return dono;
+    public void criarDeck() {
+        //Criando um arrey com todas as cartas de combatentes
+        todosCombatentes.add(new Demeter());
+        todosCombatentes.add(new Hades());
+        todosCombatentes.add(new Hestia());
+        todosCombatentes.add(new Posseidon());
+        todosCombatentes.add(new Zeus());
+        todosCombatentes.add(new Centrion());
+        todosCombatentes.add(new Darkness());
+        todosCombatentes.add(new Guardian());
+        todosCombatentes.add(new Nevasca());
+        todosCombatentes.add(new Anubis());
+        todosCombatentes.add(new Aton());
+        todosCombatentes.add(new Geb());
+        todosCombatentes.add(new Maat());
+        todosCombatentes.add(new Tefnut());
+        todosCombatentes.add(new Boggart());
+        todosCombatentes.add(new Clurichaun());
+        todosCombatentes.add(new Pooka());
+        todosCombatentes.add(new Tomte());
+        todosCombatentes.add(new ArqueiroDaNeve());
+        todosCombatentes.add(new CacadorDeDragoes());
+        todosCombatentes.add(new GuardaReal());
+        todosCombatentes.add(new OrcDaMontanha());
+        todosCombatentes.add(new OrcDeLava());
+        todosCombatentes.add(new OrcDoDeserto());
+        todosCombatentes.add(new Atlas());
+        todosCombatentes.add(new Ceo());
+        todosCombatentes.add(new Crio());
+        todosCombatentes.add(new Cronos());
+        todosCombatentes.add(new Hiperion());
+        todosCombatentes.add(new Lapeto());
+        todosCombatentes.add(new Oceano());
+
+        //Criando todas as cartas de equipamentos
+        todosEquipamentos.add(new ArmaduraDeFogoGelado());
+        todosEquipamentos.add(new BotasDeHernes());
+        todosEquipamentos.add(new PeitoralDeInfernal());
+        todosEquipamentos.add(new AdagasDoTrovao());
+        todosEquipamentos.add(new EscudoDeApofis());
+        todosEquipamentos.add(new EspadaSemLamina());
+        todosEquipamentos.add(new MachadoDecepador());
+        todosEquipamentos.add(new ColarDeDiamante());
+        todosEquipamentos.add(new ColarDeEsmeralda());
+        todosEquipamentos.add(new ColarDeObsidean());
+        todosEquipamentos.add(new ColarDeRubi());
+        todosEquipamentos.add(new ColarDeSafira());
+
+        System.out.println("Deck Criado com sucesso!");
     }
 
-    public void setDono(String dono) {
-        this.dono = dono;
-    }
+    public void definirMao(Player jogador) {
 
-    public int[] getCombatentes() {
-        return combatentes;
-    }
-
-    public void setCombatentes(int[] combatentes) {
-        this.combatentes = combatentes;
-    }
-
-    public int[] getEquipamentos() {
-        return equipamentos;
-    }
-
-    public void setEquipamentos(int[] equipamentos) {
-        this.equipamentos = equipamentos;
-    }
-
-    public void criarDeck(String dono) {
-        this.dono = dono;
         Funcoes func = new Funcoes();
         int combatentesNaMao = 6;
         int qtdCombatentes = 31;
         int equipamentosNaMao = 6;
-        int qtdEquipamentos = 11;
+        int qtdEquipamentos = 12;
 
-        ArrayList<Object> Combatentes = new ArrayList<>();
-        ArrayList<Object> Equipamentos = new ArrayList<>();
+        Set<Integer> numerosCombatentes = new HashSet<>(qtdCombatentes);
+        Set<Integer> numerosEquipamentos = new HashSet<>(qtdEquipamentos);
+
+        ArrayList<Object> maoCombatentes = new ArrayList<>(combatentesNaMao);
+        ArrayList<Object> maoEquipamentos = new ArrayList<>(equipamentosNaMao);
 
         Random random = new Random();
-        Set<Integer> numerosCombatentes = new HashSet<>();
-        Set<Integer> numerosEquipamentos = new HashSet<>();
 
+        //gerar numeros aleatórios
         func.gerarNumAleatorio(combatentesNaMao, numerosCombatentes, qtdCombatentes);
         func.gerarNumAleatorio(equipamentosNaMao, numerosEquipamentos, qtdEquipamentos);
 
-        setDono(dono);
+        List<Integer> lista = new ArrayList<Integer>();
 
-        //Criando um arrey com todas as cartas de combatentes
-        Combatentes.add(new Demeter());
-        Combatentes.add(new Hades());
-        Combatentes.add(new Hestia());
-        Combatentes.add(new Posseidon());
-        Combatentes.add(new Zeus());
-        Combatentes.add(new Centrion());
-        Combatentes.add(new Darkness());
-        Combatentes.add(new Guardian());
-        Combatentes.add(new Nevasca());
-        Combatentes.add(new Anubis());
-        Combatentes.add(new Aton());
-        Combatentes.add(new Geb());
-        Combatentes.add(new Maat());
-        Combatentes.add(new Tefnut());
-        Combatentes.add(new Boggart());
-        Combatentes.add(new Clurichaun());
-        Combatentes.add(new Pooka());
-        Combatentes.add(new Tomte());
-        Combatentes.add(new ArqueiroDaNeve());
-        Combatentes.add(new CacadorDeDragoes());
-        Combatentes.add(new GuardaReal());
-        Combatentes.add(new OrcDaMontanha());
-        Combatentes.add(new OrcDeLava());
-        Combatentes.add(new OrcDoDeserto());
-        Combatentes.add(new Atlas());
-        Combatentes.add(new Ceo());
-        Combatentes.add(new Crio());
-        Combatentes.add(new Cronos());
-        Combatentes.add(new Hiperion());
-        Combatentes.add(new Lapeto());
-        Combatentes.add(new Oceano());
+        //adicionando os numeros aleatórios de acordo com os objetos das cartas.
 
-        //Criando todas as cartas de equipamentos
-        Equipamentos.add(new ArmaduraDeFogoGelado());
-        Equipamentos.add(new BotasDeHernes());
-        Equipamentos.add(new PeitoralDeInfernal());
-        Equipamentos.add(new AdagasDoTrovao());
-        Equipamentos.add(new EscudoDeApofis());
-        Equipamentos.add(new EspadaSemLamina());
-        Equipamentos.add(new MachadoDecepador());
-        Equipamentos.add(new ColarDeDiamante());
-        Equipamentos.add(new ColarDeEsmeralda());
-        Equipamentos.add(new ColarDeObsidean());
-        Equipamentos.add(new ColarDeRubi());
-        Equipamentos.add(new ColarDeSafira());
-
-        System.out.println("Deck Criado com sucesso!");
-
-    }
-
-    public void exibirDeck(Set<Integer> numeros) {
-        for(Integer c : numeros) {
-
+        for (Integer comb : numerosCombatentes) {
+            maoCombatentes.add(todosCombatentes.get(comb));
         }
+        for (Integer equip : numerosEquipamentos) {
+            maoEquipamentos.add(todosEquipamentos.get(equip));
+        }
+
+        //setando um array com as cartas.
+        jogador.setCombatentesMao(maoCombatentes);
+        jogador.setEquipamentosMao(maoEquipamentos);
+
+        System.out.println("Mão do(a):" + jogador.getNome() + ", definido com sucesso.");
     }
+
 }

@@ -14,6 +14,8 @@ import java.util.Random;
         String playerNome;
         String playergenero;
         int playerVida;
+        ArrayList<Object> combatentesMao = new ArrayList<>();
+        ArrayList<Object> equipamentosMao = new ArrayList<>();
 
         public Player(String playerNome, String playergenero) {
 
@@ -22,6 +24,21 @@ import java.util.Random;
             this.playerVida = 5;
 
         }
+    public ArrayList<Object> getCombatentesMao() {
+        return combatentesMao;
+    }
+
+    public void setCombatentesMao(ArrayList<Object> combatentesMao) {
+        this.combatentesMao = combatentesMao;
+    }
+
+    public ArrayList<Object> getEquipamentosMao() {
+        return equipamentosMao;
+    }
+
+    public void setEquipamentosMao(ArrayList<Object> equipamentosMao) {
+        this.equipamentosMao = equipamentosMao;
+    }
 
         public String getNome() {
             return playerNome;
