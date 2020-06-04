@@ -5,6 +5,7 @@
  */
 package darkglory;
 
+import darkglory.combate.Combate;
 import darkglory.combate.Deck;
 import darkglory.combate.Funcoes;
 import darkglory.combate.Player;
@@ -25,7 +26,7 @@ public class DarkGlory {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         JOptionPane.showMessageDialog(null, "Seja bem vindo ao DarkGlory!");
         JOptionPane.showMessageDialog(null, "Onde você deve batalha em busca da glória.");
@@ -57,9 +58,8 @@ public class DarkGlory {
         Player arthur = new Player("Arthur","masculino");
         deck.definirMao(arthur);
 
-        for (Object obj : player.getCombatentesMao()) {
-            System.out.println(obj);
-        }
+        Combate combate = new Combate();
+        combate.iniciarCombate(player, arthur);
 
     }
     

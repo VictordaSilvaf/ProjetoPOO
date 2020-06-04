@@ -1,5 +1,6 @@
 package darkglory.combate;
 
+import darkglory.combatentes.Classe;
 import darkglory.combatentes.titas.*;
 import darkglory.combatentes.deuses.*;
 import darkglory.combatentes.dragoes.*;
@@ -7,6 +8,7 @@ import darkglory.combatentes.egipcios.*;
 import darkglory.combatentes.espiritos.*;
 import darkglory.combatentes.humanos.*;
 import darkglory.combatentes.orcs.*;
+import darkglory.equipamentos.Equipamento;
 import darkglory.equipamentos.armaduras.*;
 import darkglory.equipamentos.armas.*;
 import darkglory.equipamentos.colar.*;
@@ -19,8 +21,8 @@ public class Deck {
     int numeroCombatentes;
     int numeroEquipamentos;
 
-    ArrayList<Object> todosCombatentes = new ArrayList<>();
-    ArrayList<Object> todosEquipamentos = new ArrayList<>();
+    ArrayList<Classe> todosCombatentes = new ArrayList<Classe>();
+    ArrayList<Equipamento> todosEquipamentos = new ArrayList<Equipamento>();
 
     public Random random = new Random();
 
@@ -91,8 +93,8 @@ public class Deck {
         Set<Integer> numerosCombatentes = new HashSet<>(qtdCombatentes);
         Set<Integer> numerosEquipamentos = new HashSet<>(qtdEquipamentos);
 
-        ArrayList<Object> maoCombatentes = new ArrayList<>(combatentesNaMao);
-        ArrayList<Object> maoEquipamentos = new ArrayList<>(equipamentosNaMao);
+        ArrayList<Classe> maoCombatentes = new ArrayList<Classe>(combatentesNaMao);
+        ArrayList<Equipamento> maoEquipamentos = new ArrayList<Equipamento>(equipamentosNaMao);
 
         Random random = new Random();
 

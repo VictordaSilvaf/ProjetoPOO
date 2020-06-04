@@ -1,11 +1,9 @@
 package darkglory.combate;
+
+import darkglory.combatentes.Classe;
+import darkglory.equipamentos.Equipamento;
 import java.util.ArrayList;
 import java.util.Random;
-
-/**
- *
- * @author victo
- */
 
     public class Player {
 
@@ -14,8 +12,8 @@ import java.util.Random;
         String playerNome;
         String playergenero;
         int playerVida;
-        ArrayList<Object> combatentesMao = new ArrayList<>();
-        ArrayList<Object> equipamentosMao = new ArrayList<>();
+        ArrayList<Classe> combatentesMao = new ArrayList<Classe>();
+        ArrayList<Equipamento> equipamentosMao = new ArrayList<Equipamento>();
 
         public Player(String playerNome, String playergenero) {
 
@@ -24,21 +22,22 @@ import java.util.Random;
             this.playerVida = 5;
 
         }
-    public ArrayList<Object> getCombatentesMao() {
-        return combatentesMao;
-    }
 
-    public void setCombatentesMao(ArrayList<Object> combatentesMao) {
-        this.combatentesMao = combatentesMao;
-    }
+        public ArrayList<Classe> getCombatentesMao() {
+            return combatentesMao;
+        }
 
-    public ArrayList<Object> getEquipamentosMao() {
-        return equipamentosMao;
-    }
+        public void setCombatentesMao(ArrayList<Classe> combatentesMao) {
+            this.combatentesMao = combatentesMao;
+        }
 
-    public void setEquipamentosMao(ArrayList<Object> equipamentosMao) {
-        this.equipamentosMao = equipamentosMao;
-    }
+        public ArrayList<Equipamento> getEquipamentosMao() {
+            return equipamentosMao;
+        }
+
+        public void setEquipamentosMao(ArrayList<Equipamento> equipamentosMao) {
+            this.equipamentosMao = equipamentosMao;
+        }
 
         public String getNome() {
             return playerNome;
