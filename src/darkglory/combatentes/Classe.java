@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package darkglory.combatentes;
 
 import java.util.Random;
 
-/**
- *
- * @author victo
- */
 public abstract class Classe {
 
     public Random random = new Random();
@@ -26,7 +17,7 @@ public abstract class Classe {
         this.id = id;
         this.nome = nome;
         this.dano = forca;
-        this.vida = 30+vida;
+        this.vida = vida;
         this.defesa = defesa;
         this.Tipo = tipo;
     }
@@ -73,30 +64,32 @@ public abstract class Classe {
 
     //--------------------------------------------------------------------------
     public int atacar() {
-        System.out.println(this.nome);
-        int ataque_total = (dano + (random.nextInt(20)));
-        System.out.println("Dano: " + ataque_total);
-        return ataque_total;
+        int ataqueT = (dano + (random.nextInt(20)));
+        System.out.println(this.nome + " atacou com " + ataqueT + " de dano.");
+        return ataqueT;
     }
-    
+
     public int defender() {
         int defesaT = (defesa + (random.nextInt(15)));
-        System.out.println(this.nome + " defende com: " + defesaT);
+        System.out.println("Com a defesa total de "+defesaT);
         return defesaT;
     }
-    
-    public void recAtaque(int dano) {
+
+    public void receberAtaque(int dano) {
         int defesaT = defender();
         if (dano < defesaT) {
             System.out.println(this.nome + " com " + defesaT + " de defesa total, se defendeu do ataque! ");
+            System.out.println("\n");
         } else {
             dano -= defesaT;
             if (dano > vida) {
-                System.out.println(this.nome + " recebeu " + dano + "de dano ");
-                System.out.println(this.nome + " foi derrotado(a)");
+                System.out.println(this.nome + " recebeu " + dano + " de dano ");
+                System.out.println(this.nome + " foi derrotado");
+                System.out.println("\n");
                 vida = 0;
             } else {
-                System.out.println(this.nome + " recebeu " + dano + "de dano ");
+                System.out.println(this.nome + " recebeu " + dano + " de dano, ficando com "+this.vida+" de vida");
+                System.out.println("\n");
                 vida -= dano;
             }
         }
@@ -104,9 +97,5 @@ public abstract class Classe {
 
     public boolean seMorto() {
         return this.vida == 0;
-    }
-
-    public boolean seVivo() {
-        return this.vida > 0;
     }
 }
